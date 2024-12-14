@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment{
-        SCANNER_HOME= tool 'sonar-scanner'
+        SCANNER_HOME= tool 'sonar'
     }
     
     stages {
@@ -12,27 +12,21 @@ pipeline {
             }
         }
         
-        stage('OWASP FS SCAN') {
+   
+        stage('SONARQUBE ANALYSIS') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./mern/backend --disableYarnAudit --disableNodeAudit', odcInstallation: 'DC'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                withSonarQubeEnv('sonar') {
+                    sh " $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=mernstack -Dsonar.projectKey=mernstack"
+                }
             }
         }
         
         stage('TRIVY FS SCAN') {
             steps {
-                sh "trivy fs ."
+                sh "trivy fs  ."
             }
         }
         
-        stage('SONARQUBE ANALYSIS') {
-            steps {
-                withSonarQubeEnv('sonar') {
-                    sh " $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Mernstack -Dsonar.projectKey=Mernstack"
-                }
-            }
-        }
-
         stage('Deploy to Conatiner') {
             steps {
                 sh "docker-compose up -d"
