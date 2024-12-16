@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: tanzeelkz/mern-frontend:replaceImageTag
+        image: tanzeelkz/mern-frontend:2
         ports:
         - containerPort: 5173
