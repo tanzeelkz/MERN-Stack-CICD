@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: backend
-        image: tanzeelkz/mern-backend:retagmatch
+        image: tanzeelkz/mern-backend:replaceImageTag
         ports:
-        - containerPort: 5173
+        - containerPort: 5050
