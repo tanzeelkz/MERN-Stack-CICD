@@ -101,9 +101,9 @@ pipeline {
                         git config user.email "tanzeelkx@gmail.com"
                         git config user.name "tanzeelkz"
                         BUILD_NUMBER=${BUILD_NUMBER}
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Kubernetes-Manifests-files/frontend/deployment.yml
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Kubernetes-Manifests-file/frontend/deployment.yml
                         git clean -f -d
-                        git add Kubernetes-Manifests-files/frontend/deployment.yml
+                        git add Kubernetes-Manifests-file/frontend/deployment.yml
                         git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                         git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                     '''
