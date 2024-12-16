@@ -1,1 +1,114 @@
-
+pipeline {
+    agent any 
+    tools {
+        nodejs 'nodejs'
+    }
+    environment  {
+        DOCKER_IMAGE = "tanzeelkz/mern-backend:${BUILD_NUMBER}"
+        REGISTRY_CREDENTIALS = credentials('docker-creds')   
+        SCANNER_HOME=tool 'sonar-scanner'
+        //AWS_ACCOUNT_ID = credentials('ACCOUNT_ID')
+        //AWS_ECR_REPO_NAME = credentials('ECR_REPO1')
+        //AWS_DEFAULT_REGION = 'us-east-1'
+        //REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/"
+    }
+    stages {
+        stage('Cleaning Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                //git branch: 'main', url: 'https://github.com/tanzeelkz/MERN-Stack-CICD.git'
+            }
+        }
+        stage('Sonarqube Analysis') {
+            steps {
+                dir('Application-Code/frontend') {
+                    withSonarQubeEnv('sonar-server') {
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectName=Backend \
+                        -Dsonar.projectKey=Backend '''
+                    }
+                }
+            }
+        }
+        
+        //stage('Quality Check') {
+           // steps {
+             //   script {
+            //        waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-creds' 
+              //  }
+          //  }
+       // }
+        //stage('OWASP Dependency-Check Scan') {
+          //  steps {
+             //   dir('Application-Code/backend') {
+                  //  dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                   // dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                //}
+            //}
+       // }
+        stage('Trivy File Scan') {
+            steps {
+                dir('Application-Code/backend') {
+                    sh 'trivy fs . > trivyfs.txt'
+                }
+            }
+        }
+        
+        stage("Docker Image Build") {
+             steps {
+                script {
+                    dir('Application-Code/backend') {
+                        sh 'docker system prune -f'
+                        sh 'docker container prune -f'
+                        sh 'docker build -t ${DOCKER_IMAGE} .'
+                    }
+                }
+            }
+        }
+        
+        stage("Dockerhub Image Pushing"){
+            steps{
+                script{
+                    //sh 'cd Application-Code/frontend && docker build -t ${DOCKER_IMAGE} .'
+                    def dockerImage = docker.image("${DOCKER_IMAGE}")
+                    docker.withRegistry('https://index.docker.io/v1/', "docker-creds") {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+        
+        stage("TRIVY Image Scan") {
+            steps {
+                sh 'trivy image ${DOCKER_IMAGE}${BUILD_NUMER} > trivy-image-report.txt' 
+            }
+        }
+        
+        
+        stage('Update Deployment File') {
+            environment {
+                GIT_REPO_NAME = "MERN-Stack-CICD"
+                GIT_USER_NAME = "tanzeelkz"
+            }
+            
+            steps {
+                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                        git config user.email "tanzeelkx@gmail.com"
+                        git config user.name "tanzeelkz"
+                        BUILD_NUMBER=${BUILD_NUMBER}
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" Kubernetes-Manifests-file/backend/deployment.yml
+                        git clean -f -d
+                        git add Kubernetes-Manifests-file/backend/deployment.yml
+                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                    '''
+                    }
+                }
+            }
+        }
+    }
