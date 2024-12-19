@@ -4,10 +4,10 @@ metadata:
   name: bankend
   namespace: three-tier
   labels:
-    role: api
+    role: bankend
     env: demo
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -15,7 +15,7 @@ spec:
       maxUnavailable: 25%
       containers:
       - name: api
-        image: 407622020962.dkr.ecr.us-east-1.amazonaws.com/backend:1
+        image: tanzeelkz/mern-backend:v2
         imagePullPolicy: Always
         env:
           - name: MONGO_CONN_STR
