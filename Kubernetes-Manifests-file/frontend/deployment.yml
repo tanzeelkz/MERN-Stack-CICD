@@ -2,9 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: three-tier
-  labels:
-    app: frontend
 spec:
   replicas: 1
   selector:
@@ -16,7 +13,10 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: tanzeelkz/mern-frontend:2
-        ports:
-        - containerPort: 5173
+        - name: frontend
+          image: tanzeelkz/mern-frontend:v2 # Replace with actual image name or use a build process
+          ports:
+            - containerPort: 5173
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://backend:5050"
