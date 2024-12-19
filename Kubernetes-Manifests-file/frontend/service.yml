@@ -1,14 +1,12 @@
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
   name: frontend-svc
-  namespace: three-tier
 spec:
-  ports:
-  - port: 5173
-    targetPort: 5173
-    protocol: TCP
-    nodePort: 30001  # Optional: You can specify a custom nodePort within the range 30000-32767
-  type: NodePort
   selector:
-    role: frontend
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 5173
+      targetPort: 5173
+  type: NodePort # This allows external access, can also be NodePort if LoadBalancer is not available
