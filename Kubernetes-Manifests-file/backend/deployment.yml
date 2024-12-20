@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: tanzeelkz/mern-backend:2 # Replace with actual backend image name
+          image: tanzeelkz/mern-backend:v2 # Replace with actual backend image name
           ports:
             - containerPort: 5050
         env:
