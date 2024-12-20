@@ -10,4 +10,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /home/ubuntu/data
+    path: /root/filesystem/home/ubuntu/data/db
