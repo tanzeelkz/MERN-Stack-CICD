@@ -4,6 +4,7 @@ metadata:
   namespace: three-tier
   name: mongo-pvc
 spec:
+  volumeName: mongo-pv
   accessModes:
     - ReadWriteOnce
   resources:
