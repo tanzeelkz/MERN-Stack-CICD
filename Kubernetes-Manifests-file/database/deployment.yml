@@ -24,4 +24,4 @@ spec:
       volumes:
         - name: mongo-storage
           persistentVolumeClaim:
-            claimName: mongo-pvc  # PVC for MongoDB data persistence
+            claimName: mongo-volume-claim  # PVC for MongoDB data persistence
