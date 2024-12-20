@@ -8,18 +8,22 @@ metadata:
     env: demo
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
       containers:
-      - name: api
-        image: tanzeelkz/mern-backend:v2
-        imagePullPolicy: Always
+        - name: backend
+          image: tanzeelkz/mern-backend:2 # Replace with actual backend image name
+          ports:
+            - containerPort: 5050
         env:
           - name: MONGO_CONN_STR
-            value: mongodb://mongodb-svc:27017/todo?directConnection=true
+            value: mongodb://mongo:27017/mydatabase
           - name: MONGO_USERNAME
             valueFrom:
               secretKeyRef:
