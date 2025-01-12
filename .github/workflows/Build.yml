@@ -28,6 +28,6 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         context: .
-        file: ./Application-Code/frontend .
+        file: ./Application-Code/frontend/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{github.run_id}}
