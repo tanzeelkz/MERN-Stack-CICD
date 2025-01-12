@@ -27,7 +27,7 @@ jobs:
     - name: Build and Push action
       uses: docker/build-push-action@v6
       with:
-        context: .
+        context: ./Application-Code/frontend
         file: ./Application-Code/frontend/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{github.run_id}}
