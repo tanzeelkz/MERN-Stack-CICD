@@ -24,7 +24,7 @@ jobs:
     # Build the Docker image
     - name: Build Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/nodejs-app:latest -f Application-Code/frontend .
 
     # Push the Docker image to Docker Hub
     - name: Push Docker image
