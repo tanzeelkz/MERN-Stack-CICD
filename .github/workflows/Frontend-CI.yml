@@ -57,7 +57,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GO_WEB_APP }}
+        token: ${{ secrets.Mern_Token }}
 
     - name: Update tag in Helm chart
       run: |
