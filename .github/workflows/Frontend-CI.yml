@@ -1,4 +1,4 @@
-name: Frontend-CI
+name: Mern-Frontend
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
        - .github/workflows/Frontend-CI.yml
 
 jobs:
-  Git-clone:
+  clone:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,11 +21,11 @@ jobs:
       uses: actions/checkout@v4
       
     # Trivy Filesystem Scan
-  TrivyFileScan:
+  TrivyFs:
      runs-on: ubuntu-latest
-     needs: Git-clone
+     needs: clone
      steps:
-    # Checkout the repository code
+
      - name: Checkout code
        uses: actions/checkout@v4
      - name: Run Trivy vulnerability scanner in fs mode
@@ -35,9 +35,10 @@ jobs:
         scan-ref: '.'
         trivy-config: trivyfile.yaml
         
-  Sonarqube:
+     # Setup sonar-scannar
+  code-quality:
     runs-on: ubuntu-latest
-    needs: TrivyFileScan
+    needs: TrivyFs
 
     steps:
      - name: Checkout code
@@ -45,7 +46,6 @@ jobs:
        with: 
             fetch-depth: 0
      
-    # Setup sonar-scannar
      - name: Analyze with SonarCloud
        uses: sonarsource/sonarcloud-github-action@master
        env:
@@ -53,15 +53,13 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        with:
           projectBaseDir: Application-Code/frontend
-          args: >
             -Dsonar.organization=tnzlkhan
             -Dsonar.projectKey=MERN-Stack-CICD
             
             
   Build-Push:
      runs-on: ubuntu-latest
-
-     needs: Sonarqube
+     needs: code-quality
 
      steps:
      - name: Checkout repository
