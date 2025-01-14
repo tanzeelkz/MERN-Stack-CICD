@@ -5,8 +5,8 @@ on:
     branches: 
      - main
     paths:
-     - Application-Code/frontend/**
-     - .github/workflows/*-Frontend-CI.yml
+     - 'Application-Code/frontend/**'
+     - '.github/workflows/*-Frontend-CI.yml'
 
 jobs:
   build:
