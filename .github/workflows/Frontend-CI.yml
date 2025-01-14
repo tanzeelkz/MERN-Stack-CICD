@@ -2,6 +2,8 @@ name: frontend-CI
 
 on:
   push:
+    paths:
+      - 'Application-Code/frontend/**'
     branches:
       - main  # Run workflow when pushing to the main branch
 
