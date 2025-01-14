@@ -4,7 +4,7 @@ on:
   push:
     branches:
      - main
-    paths-ignore:
+    paths:
      - 'helm/frontend-charts**/**'
      - 'Kubernetes-Manifests-file/frontend/**/**'
      - 'README.md'
@@ -54,7 +54,7 @@ jobs:
        with:
           projectBaseDir: Application-Code/frontend
           args: >
-            -Dsonar.organization=tanzeelkz
+            -Dsonar.organization=tnzlkhan
             -Dsonar.projectKey=MERN-Stack-CICD
             
             
