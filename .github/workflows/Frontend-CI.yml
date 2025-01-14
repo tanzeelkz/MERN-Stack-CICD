@@ -54,7 +54,7 @@ jobs:
        with:
           projectBaseDir: Application-Code/frontend
           args: >
-            -Dsonar.organization= tnzlkhan
+            -Dsonar.organization= tanzeelkz
             -Dsonar.projectKey= MERN-Stack-CICD
             -Dsoanr.python.coverage.reportPaths=coverage.xml
             
