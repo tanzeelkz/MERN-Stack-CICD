@@ -5,13 +5,13 @@ on:
     branches: 
      - main
     paths:
-    - 'Application-Code/frontend/**'
+    - 'Application-Code/backend/**'
    # Run workflow when pushing to the main branch  
   pull_request:
    branches: 
      - main
    paths:
-      - 'Application-Code/frontend/**'
+      - 'Application-Code/backend/**'
    paths-ignore:
       - 'helm/**'
       - 'Kubernetes-Manifests-file/**'
