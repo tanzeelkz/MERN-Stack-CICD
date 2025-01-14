@@ -54,7 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.Mern_Token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        with:
-          projectBaseDir: ./MERN-Stack-CICD/Application-Code/frontend
+          projectBaseDir: ./home/runner/work/MERN-Stack-CICD/MERN-Stack-CICD/MERN-Stack-CICD/Application-Code/frontend
           args: > 
             -X
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
