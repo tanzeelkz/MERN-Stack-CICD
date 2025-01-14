@@ -40,10 +40,13 @@ jobs:
     steps:
      - name: Checkout code
        uses: actions/checkout@v4
+       
      - name: Java jdk setup
        uses: actions/setup-java@v4
        with:
         java-version: 21
+     - name: maven target # change accordingly
+       run: mvn clean install
     # Setup sonar-scanner
   
      - name: Setup SonarQube
