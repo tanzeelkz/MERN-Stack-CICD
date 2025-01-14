@@ -5,16 +5,8 @@ on:
     branches: 
      - main
     paths:
-    - 'Frontend-CI/**'
-   # Run workflow when pushing to the main branch  
-  pull_request:
-    branches: 
-     - main
-    paths-ignore:
-      - 'frontend/**'
-      - 'helm/**'
-      - 'Kubernetes-Manifests-file/**'
-      - 'README.md'
+     - Application-Code/frontend/**
+     - .github/workflows/*-Frontend-CI.yml
 
 jobs:
   build:
