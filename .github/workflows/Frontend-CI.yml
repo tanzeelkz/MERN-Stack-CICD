@@ -62,13 +62,13 @@ jobs:
             sonarcloud.organization: SONAR_ORGANIZATION
             sonarcloud.projectKey: SONAR_PROJECT_KEY
             sonarcloud.host.url: SONAR_URL
-            sonarcloud.login: secrets.SONAR_TOKEN
+            sonarcloud.login: SONAR_TOKEN
             sonarcloud.scannerVersion: "4.2.0.1873"
             
   Build-Push:
      runs-on: ubuntu-latest
 
-     needs: TrivyFileScan
+     needs: Sonarqube
 
      steps:
      - name: Checkout repository
