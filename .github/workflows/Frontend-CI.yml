@@ -4,12 +4,12 @@ on:
   push:
     branches:
      - main
-    paths-ignore:
-     - 'helm/frontend-charts**/**'
-     - 'Kubernetes-Manifests-file/frontend/**/**'
-     - 'README.md'
-     - 'Application-Code/frontend/**/**'
-     - '.github/workflows/*-Frontend-CI.yml'
+    paths:
+     - helm/frontend-charts**/**
+     - Kubernetes-Manifests-file/frontend/**/**
+     - README.md
+     - Application-Code/frontend/**/**
+     - .github/workflows/*-Frontend-CI.yml
 
 jobs:
   Git-clone:
