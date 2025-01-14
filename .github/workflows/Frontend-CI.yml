@@ -1,11 +1,16 @@
-name: frontend-CI
+name: Frontend-CI
 
 on:
   push:
-    paths:
-      - 'Application-Code/frontend/**'
     branches:
-      - main  # Run workflow when pushing to the main branch
+      - main # Run workflow when pushing to the main branch  
+  pull_request:
+    branches:
+      - main 
+    paths-ignore:
+      - 'helm/**'
+      - 'Kubernetes-Manifests-file/**'
+      - 'README.md'
 
 jobs:
   build:
@@ -15,14 +20,21 @@ jobs:
     # Checkout the repository code
     - name: Checkout code
       uses: actions/checkout@v4
+      
     # Trivy Filesystem Scan
-    - name: Run Trivy vulnerability scanner in fs mode
-      uses: aquasecurity/trivy-action@0.28.0
-      with:
+  TrivyFileScan:
+     runs-on: ubuntu-latest
+     steps:
+    # Checkout the repository code
+     - name: Checkout code
+       uses: actions/checkout@v4
+     - name: Run Trivy vulnerability scanner in fs mode
+       uses: aquasecurity/trivy-action@0.28.0
+       with:
         scan-type: 'fs'
         scan-ref: '.'
         trivy-config: trivyfile.yaml
-  push:
+  Bulid-Push:
      runs-on: ubuntu-latest
 
      needs: build
@@ -53,7 +65,7 @@ jobs:
   update-newtag-in-helm-chart:
     runs-on: ubuntu-latest
     
-    needs: push
+    needs: Bulid-Push
 
     steps:
     - name: Checkout repository
