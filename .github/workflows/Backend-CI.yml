@@ -5,11 +5,11 @@ on:
     branches:
      - main
     paths:
-     - 'helm/backend-charts**/**'
-     - 'Kubernetes-Manifests-file/backend/**/**'
-     - 'README.md'
-     - 'Application-Code/backend/**/**'
-     - '.github/workflows/*-Backend-CI.yml'
+     - helm/backend-charts**/**
+     - Kubernetes-Manifests-file/backend/**/**
+     - README.md
+     - Application-Code/backend/**/**
+     - .github/workflows/*-Backend-CI.yml
       
 jobs:
   build:
