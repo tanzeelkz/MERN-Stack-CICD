@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'Application-Code/backend/**'
+      - 'Kubernetes-Manifests-file/backend/**'
+      - 'helm/backend-chart/**'
     branches:
       - main  # Run workflow when pushing to the main branch
     paths-ignore:
