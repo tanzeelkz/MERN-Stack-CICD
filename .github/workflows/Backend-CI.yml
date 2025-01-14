@@ -2,10 +2,13 @@ name: backend-CI
 
 on:
   push:
-    branches: 
+    branches:
      - main
-    paths:
-     - 'Application-Code/backend/**'
+    paths-ignore:
+     - 'helm/backend-charts**/**'
+     - 'Kubernetes-Manifests-file/backend/**/**'
+     - 'README.md'
+     - 'Application-Code/backend/**/**'
      - '.github/workflows/*-Backend-CI.yml'
       
 jobs:
