@@ -59,11 +59,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.Mern_Token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        with:
-            sonarcloud.organization: SONAR_ORGANIZATION
-            sonarcloud.projectKey: SONAR_PROJECT_KEY
-            sonarcloud.host.url: SONAR_URL
-            sonarcloud.login: SONAR_TOKEN
-            sonarcloud.scannerVersion: "4.2.0.1873"
+          projectBaseDir: Application-Code/frontend
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.host.url=${{ secrets.SONAR_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=src/
+            -Dsonar.verbose=true
+            
             
   Build-Push:
      runs-on: ubuntu-latest
