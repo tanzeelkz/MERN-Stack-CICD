@@ -42,19 +42,12 @@ jobs:
     steps:
      - name: Checkout code
        uses: actions/checkout@v4
-       
-     - name: Java jdk setup
-       uses: actions/setup-java@v1
-       with:
-        java-version: 21
+       with: 
+            fetch-depth: 0
      
-    # Setup sonar-scanner
-  
-     - name: Setup SonarQube
-       uses: warchant/setup-sonar-scanner@v8
-
+    # Setup sonar-scannar
      - name: Analyze with SonarCloud
-       uses: sonarsource/sonarcloud-github-action@v4
+       uses: sonarsource/sonarcloud-github-action@master
        env:
           GITHUB_TOKEN: ${{ secrets.Mern_Token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
