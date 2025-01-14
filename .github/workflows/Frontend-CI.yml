@@ -34,11 +34,16 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         trivy-config: trivyfile.yaml
-        
+  Sonarqube:
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: Checkout code
+       uses: actions/checkout@v4
      - name: Java jdk setup
        uses: actions/setup-java@v4
        with:
-        java-version: 17
+        java-version: 21
     # Setup sonar-scanner
   
      - name: Setup SonarQube
