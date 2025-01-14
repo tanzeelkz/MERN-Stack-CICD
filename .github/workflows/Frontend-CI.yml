@@ -1,4 +1,4 @@
-name: Mern-Frontend
+name: ci mern stack frontend application 
 
 on:
   push:
@@ -19,6 +19,8 @@ jobs:
     # Checkout the repository code
     - name: Checkout code
       uses: actions/checkout@v4
+      with: 
+          fetch-depth: 0
       
     # Trivy Filesystem Scan
   TrivyFs:
@@ -28,6 +30,8 @@ jobs:
 
      - name: Checkout code
        uses: actions/checkout@v4
+       with: 
+          fetch-depth: 0
      - name: Run Trivy vulnerability scanner in fs mode
        uses: aquasecurity/trivy-action@0.28.0
        with:
@@ -52,9 +56,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.Mern_Token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        with:
-          projectBaseDir: Application-Code/frontend
-            -Dsonar.organization=tnzlkhan
-            -Dsonar.projectKey=MERN-Stack-CICD
+        args: >
+           -Dsonar.organization=tnzlkhan
+           -Dsonar.projectKey=MERN-Stack-CICD
             
             
   Build-Push:
@@ -64,6 +68,8 @@ jobs:
      steps:
      - name: Checkout repository
        uses: actions/checkout@v4
+       with: 
+          fetch-depth: 0
  
 
     # Log in to Docker Hub
@@ -93,6 +99,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
+        fetch-depth: 0
         token: ${{ secrets.Mern_Token }}
 
     - name: Update tag in Helm chart
