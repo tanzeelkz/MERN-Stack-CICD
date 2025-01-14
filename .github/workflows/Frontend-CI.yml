@@ -12,7 +12,6 @@ on:
      - main
    paths:
       - 'Application-Code/frontend/**'
-   paths-ignore:
       - 'helm/**'
       - 'Kubernetes-Manifests-file/**'
       - 'README.md'
