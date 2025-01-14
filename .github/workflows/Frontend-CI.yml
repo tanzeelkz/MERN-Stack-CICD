@@ -33,6 +33,29 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         trivy-config: trivyfile.yaml
+    # Setup sonar-scanner
+  Sonar-Analysis:
+     runs-on: ubuntu-latest
+     
+     steps:
+     - name: Setup SonarQube
+       uses: warchant/setup-sonar-scanner@v8
+
+     - name: Analyze with SonarCloud
+       uses: sonarsource/sonarcloud-github-action@main
+       env:
+          GITHUB_TOKEN: ${{ secrets.Mern_Token }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+       with:
+          projectBaseDir: Application-Code/frontend
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.host.url=${{ secrets.SONAR_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=src/
+            -Dsonar.verbose=true
+            
   Bulid-Push:
      runs-on: ubuntu-latest
 
