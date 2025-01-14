@@ -2,14 +2,17 @@ name: Frontend-CI
 
 on:
   push:
-   paths:
-    - 'Application-Code/frontend/**'
-   branches:
-      - main # Run workflow when pushing to the main branch  
-  pull_request:
+    branches: 
+     - main
     paths:
+    - 'Application-Code/frontend/**'
+   # Run workflow when pushing to the main branch  
+  pull_request:
+   branches: 
+     - main
+   paths:
       - 'Application-Code/frontend/**'
-    paths-ignore:
+   paths-ignore:
       - 'helm/**'
       - 'Kubernetes-Manifests-file/**'
       - 'README.md'
