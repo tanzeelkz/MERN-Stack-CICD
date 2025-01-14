@@ -5,10 +5,10 @@ on:
     branches:
        - main
     paths:
-       - helm/frontend-charts/**/**
-       - Kubernetes-Manifests-file/frontend/**/**'
+       - helm/frontend-charts/**
+       - Kubernetes-Manifests-file/frontend/**
        - README.md
-       - Application-Code/frontend/**/**
+       - Application-Code/frontend/**
        - .github/workflows/Frontend-CI.yml
 
 jobs:
