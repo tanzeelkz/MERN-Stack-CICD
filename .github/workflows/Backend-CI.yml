@@ -3,7 +3,7 @@ name: backend-CI
 on:
   push:
     paths:
-      - 'Kubernetes-Manifests-file/backend/**'
+      - 'Application-Code/backend/**'
     branches:
       - main  # Run workflow when pushing to the main branch
     paths-ignore:
