@@ -34,8 +34,10 @@ jobs:
         scan-type: 'fs'
         scan-ref: '.'
         trivy-config: trivyfile.yaml
+        
   Sonarqube:
     runs-on: ubuntu-latest
+    needs: TrivyFileScan
 
     steps:
      - name: Checkout code
@@ -45,8 +47,7 @@ jobs:
        uses: actions/setup-java@v1
        with:
         java-version: 21
-     - name: maven target # change accordingly
-       run: mvn clean install
+     
     # Setup sonar-scanner
   
      - name: Setup SonarQube
