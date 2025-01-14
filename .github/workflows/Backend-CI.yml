@@ -2,16 +2,17 @@ name: backend-CI
 
 on:
   push:
+    branches:
+      - main # Run workflow when pushing to the main branch
     paths:
       - 'Application-Code/backend/**'
       - 'Kubernetes-Manifests-file/backend/**'
       - 'helm/backend-chart/**'
-    branches:
-      - main  # Run workflow when pushing to the main branch
     paths-ignore:
       - 'helm/**'
       - 'Kubernetes-Manifests-file/**'
       - 'README.md'
+      
 
 jobs:
   build:
