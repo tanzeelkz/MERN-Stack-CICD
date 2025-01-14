@@ -3,7 +3,7 @@ name: Frontend-CI
 on:
   push:
     paths:
-     - './Application-Code/frontend/**'
+     - 'Application-Code/frontend/**'
      - '.github/workflows/*-Frontend-CI.yml'
 
 jobs:
