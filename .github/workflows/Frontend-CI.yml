@@ -4,7 +4,7 @@ on:
   push:
     branches:
      - main
-    paths:
+    paths-ignore:
      - 'helm/frontend-charts**/**'
      - 'Kubernetes-Manifests-file/frontend/**/**'
      - 'README.md'
