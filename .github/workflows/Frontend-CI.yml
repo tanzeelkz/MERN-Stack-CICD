@@ -54,12 +54,9 @@ jobs:
        with:
           projectBaseDir: Application-Code/frontend
           args: >
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.host.url=${{ secrets.SONAR_URL }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.sources=src/
-            -Dsonar.verbose=true
+            -Dsonar.organization= tnzlkhan
+            -Dsonar.projectKey= MERN-Stack-CICD
+            -Dsoanr.python.coverage.reportPaths=coverage.xml
             
             
   Build-Push:
