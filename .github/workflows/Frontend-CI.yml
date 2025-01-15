@@ -58,12 +58,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.Mern_Token }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
        with:
+        projectBaseDir: Application-Code/frontend
         args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.host.url=${{ secrets.SONAR_URL }}
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.sources=Application/frontend/**
+            -Dsonar.sources=Application-Code/frontend/
             -Dsonar.verbose=true
             
   Build-Push:
