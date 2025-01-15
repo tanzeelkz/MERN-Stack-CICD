@@ -42,7 +42,7 @@ jobs:
           trivy-config: trivyfile.yaml
 
   # Step 3: Build and Push Docker Image
-  Build-Push:
+  build-push:
     runs-on: ubuntu-latest
     needs: TrivyFs
     steps:
@@ -75,7 +75,7 @@ jobs:
   # Step 4: Run Trivy Image Scan
   TrivyImageScan:
     runs-on: ubuntu-latest
-    needs: SonarQubeScan
+    needs: build-push
     steps:
       # Checkout the repository
       - name: Checkout repository
