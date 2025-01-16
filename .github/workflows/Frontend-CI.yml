@@ -30,6 +30,8 @@ jobs:
       # Sonnarqube Code Quality Scan 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
+        with: 
+         context: ./Application-Code/frontend/**
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
