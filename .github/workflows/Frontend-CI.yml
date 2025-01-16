@@ -21,7 +21,19 @@ jobs:
         uses: actions/checkout@v4
         with: 
           fetch-depth: 0
-
+          
+      # Trivy Filesystem Scan
+      - name: Trivy FS scan
+        run: |
+         trivy fs --format table -o fs.html .
+         
+      # Sonnarqube Code Quality Scan 
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+         SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
+         SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+        
       # Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -41,9 +53,3 @@ jobs:
           file: ./Application-Code/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
-
-      - name: Trivy FS scan
-        run: |
-         trivy fs --format table -o fs.html .
-
-      
