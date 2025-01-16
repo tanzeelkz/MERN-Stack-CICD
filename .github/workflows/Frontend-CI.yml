@@ -46,7 +46,8 @@ jobs:
 
   # Step 6: Update Helm Chart with New Tag
       - name: update-newtag-in-helm-chart
-        with:
+        uses: actions/checkout@v4
+        with: 
           fetch-depth: 0
           token: ${{ secrets.Mern_Token }}
 
