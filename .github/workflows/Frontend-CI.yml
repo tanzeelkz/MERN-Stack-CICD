@@ -41,3 +41,7 @@ jobs:
           file: ./Application-Code/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
+
+      - name: Trivy FS scan
+        run: |
+         trivy fs --format table -o fs.html .
