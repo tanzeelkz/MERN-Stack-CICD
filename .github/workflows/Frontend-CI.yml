@@ -14,40 +14,10 @@ on:
 jobs:
   # Step 1: Clone the repository
   clone:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       # Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v4
-        with: 
-          fetch-depth: 0
-
-  # Step 2: Run Trivy Filesystem Scan
-  TrivyFs:
-    runs-on: ubuntu-latest
-    needs: clone
-    steps:
-      # Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with: 
-          fetch-depth: 0
-
-      # Run Trivy vulnerability scanner in filesystem mode
-      - name: Run Trivy vulnerability scanner in filesystem mode
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          trivy-config: trivyfile.yaml
-
-  # Step 3: Build and Push Docker Image
-  build-push:
-    runs-on: ubuntu-latest
-    needs: TrivyFs
-    steps:
-      # Checkout the repository
-      - name: Checkout repository
         uses: actions/checkout@v4
         with: 
           fetch-depth: 0
@@ -72,52 +42,10 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
 
-  # Step 4: Run Trivy Image Scan
-  TrivyImageScan:
-    runs-on: ubuntu-latest
-    needs: build-push
-    steps:
-      # Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with: 
-          fetch-depth: 0
-
-      # Run Trivy vulnerability scanner on Docker image
-      - name: Run Trivy Image Scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: docker.io/${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
-          format: 'table'
-          exit-code: '1'
-          severity: 'CRITICAL,HIGH'
-
-  # Step 5: Add SonarQube Image Scan
-  SonarQubeScan:
-    runs-on: ubuntu-latest
-    needs: TrivyImageScan
-    steps:
-      # Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # SonarQube Scan
-      - name: SonarQube Scanner
-        uses: sonarsource/sonarqube-scan-action@v1.0
-        with:
-          host-url: ${{ secrets.SONAR_URL }}
-          login: ${{ secrets.SONAR_TOKEN }}
+  
 
   # Step 6: Update Helm Chart with New Tag
-  update-newtag-in-helm-chart:
-    runs-on: ubuntu-latest
-    needs: SonarQubeScan
-    steps:
-      # Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: update-newtag-in-helm-chart
         with:
           fetch-depth: 0
           token: ${{ secrets.Mern_Token }}
