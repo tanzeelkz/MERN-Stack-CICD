@@ -41,27 +41,3 @@ jobs:
           file: ./Application-Code/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
-
-  
-
-  # Step 6: Update Helm Chart with New Tag
-      - name: update-newtag-in-helm-chart
-        uses: actions/checkout@v4
-        with: 
-          fetch-depth: 0
-          token: ${{ secrets.Mern_Token }}
-
-      # Update the tag in Helm chart
-      - name: Update tag in Helm chart
-        run: |
-          sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/frontend-charts/values.yaml
-
-      # Commit and push changes to the repository
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.email "tanzeelkx@gmail.com"
-          git config --global user.name "Tanzeelkz"
-          git add helm/frontend-charts/values.yaml
-          git commit -m "Update tag in Helm chart"
-          git pull --rebase
-          git push origin main
