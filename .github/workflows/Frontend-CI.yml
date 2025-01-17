@@ -1,4 +1,4 @@
-name: CI for MERN Stack Frontend Application
+name: ci for MERN Stack Frontend Application
 
 on:
   push:
