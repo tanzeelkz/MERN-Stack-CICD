@@ -3,8 +3,10 @@ name: CI for MERN stack Frontend Application
 on:
   workflow_dispatch:
     inputs:
-      branch: 
-  
+      branch:
+      description: 'Branch to run workflow on'
+      required: true
+      default: 'main'
   paths: 
       - 'Application-Code/frontend/**'
       - .github/workflows/Frontend-CI.yml
