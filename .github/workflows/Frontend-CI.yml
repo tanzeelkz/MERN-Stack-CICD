@@ -29,10 +29,7 @@ jobs:
          
       # Sonnarqube Code Quality Scan l
   
-      - name: gitcheckout
-        uses: actions/checkout@v4
-      - name: Install unzip 
-        run: sudo apt install -y unzip
+
       
       - uses: sonarsource/sonarqube-scan-action@master
         with: 
