@@ -115,6 +115,6 @@ jobs:
          git config --global user.name "Tanzeelkz"
          git add helm/backend-chart/values.yaml
          git commit -m "Update tag in Helm chart"
-         git pull
+         git pull --rebase
          git push origin main
         
