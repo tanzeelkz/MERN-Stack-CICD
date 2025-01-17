@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
           
       # Trivy Filesystem Scan
-  file-system-scan:
+  trivy-file-system-scan:
     runs-on: self-hosted
     needs: clone-repo
     steps:
@@ -35,9 +35,9 @@ jobs:
          trivy fs --format table -o fs-backend.html .
   
       # Sonnarqube Code Quality Scan  
-  code-quality-check:
+  sonar-quality-scan:
     runs-on: self-hosted
-    needs: file-system-scan
+    needs: trivy-file-system-scan
     steps:
       # Checkout the repository code
       - name: Checkout code
@@ -54,7 +54,7 @@ jobs:
       # Set up Docker Buildx
   buld-push:
      runs-on: self-hosted
-     needs: code-quality-check
+     needs: sonar-quality-scan
      steps:
       # Checkout the repository code
       - name: Checkout code
