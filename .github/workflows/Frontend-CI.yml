@@ -38,7 +38,7 @@ jobs:
         with: 
           projectBaseDir: Application-Code/frontend
           args: > 
-           -Dsonar.projectkey= Frontend
+           -Dsonar.projectKey= Frontend
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
