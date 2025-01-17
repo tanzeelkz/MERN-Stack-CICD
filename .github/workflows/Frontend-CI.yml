@@ -35,6 +35,10 @@ jobs:
         run: sudo apt install -y unzip
       
       - uses: sonarsource/sonarqube-scan-action@master
+        with: 
+          projectBaseDir: Application-Code/frontend
+          args: > 
+           -Dsonar.projectkey= frontend
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
