@@ -27,12 +27,12 @@ jobs:
         run: |
          trivy fs --format table -o fs.html .
          
-      # Sonnarqube Code Quality Scan 
+      # Sonnarqube Code Quality Scan l
+  
       - name: SonarQube Scan
         uses: actions/checkout@v4
-        with: 
-          fetch-depth: 0
-      - uses: sonarsource/sonarqube-scan-action@master
+      - name: Install unzip 
+        run: sudo apt install -y unzip
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
