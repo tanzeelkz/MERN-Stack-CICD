@@ -56,7 +56,7 @@ jobs:
       # Trivy Image Scanner 
       - name: Trivy Image Scan
         run: |
-         trivy image --format table -o trivy-image-report.html ${{secrets.DOCKER_USERNAME }}/mern-backend:${{ github.run_id }}
+         trivy image --format table -o trivy-backend.html ${{secrets.DOCKER_USERNAME }}/mern-backend:${{ github.run_id }}
 
      # Update tag in Helm chart
   update-newtag-in-helm-chart:
