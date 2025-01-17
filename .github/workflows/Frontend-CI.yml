@@ -5,11 +5,12 @@ on:
     branches:
       - main
     paths: 
-      - helm/frontend-charts/**
-      - Kubernetes-Manifests-file/frontend/**
-      - README.md
       - Application-Code/frontend/**
       - .github/workflows/Frontend-CI.yml
+    paths-ignore:
+      - helm/frontend_chart/*
+      - Kubernetes-Manifests-file/frontend/*
+      - README.md
 
 jobs:
   # Step 1: Clone the repository
@@ -27,10 +28,7 @@ jobs:
         run: |
          trivy fs --format table -o fs.html .
          
-      # Sonnarqube Code Quality Scan l
-  
-
-      
+      # Sonnarqube Code Quality Scan     
       - uses: sonarsource/sonarqube-scan-action@master
         with: 
           projectBaseDir: Application-Code/frontend
@@ -63,4 +61,24 @@ jobs:
       - name: Trivy Image Scan
         run: |
          trivy image --format table -o trivy-image-report.html ${{secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
-  
+
+     # Update tag in Helm chart
+  update-newtag-in-helm-chart:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.Mern_Token }}
+
+    - name: Update tag in Helm chart
+      run: |
+        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/frontend-chart/values.yaml
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "tanzeelkx@gmail.com"
+        git config --global user.name "Tanzeelkz"
+        git add helm/frontend-chart/values.yaml
+        git commit -m "Update tag in Helm chart"
+        git push origin main
