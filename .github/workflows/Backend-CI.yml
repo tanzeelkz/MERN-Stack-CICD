@@ -58,24 +58,3 @@ jobs:
         run: |
          trivy image --format table -o trivy-backend.html ${{secrets.DOCKER_USERNAME }}/mern-backend:${{ github.run_id }}
 
-     # Update tag in Helm chart
-  update-newtag-in-helm-chart:
-    runs-on: self-hosted
-    needs: build
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.Mern_Token }}
-
-    - name: Update tag in Helm chart
-      run: |
-        sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/backend-chart/values.yaml
-
-    - name: Commit and push changes
-      run: |
-        git config --global user.email "tanzeelkx@gmail.com"
-        git config --global user.name "Tanzeelkz"
-        git add helm/backend-chart/values.yaml
-        git commit -m "Update tag in Helm chart"
-        git push origin main
