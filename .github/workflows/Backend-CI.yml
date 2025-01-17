@@ -29,7 +29,7 @@ jobs:
         with: 
           projectBaseDir: Application-Code/backend
         env:
-         SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
+         SONAR_TOKEN: ${{ secrets.SONAR_BACKEND }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
         
       # Set up Docker Buildx
