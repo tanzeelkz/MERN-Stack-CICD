@@ -7,10 +7,6 @@ on:
     paths: 
       - Application-Code/frontend/**
       - .github/workflows/Frontend-CI.yml
-    paths-ignore:
-      - helm/frontend_chart/*
-      - Kubernetes-Manifests-file/frontend/*
-      - README.md
 
 jobs:
   # Step 1: Clone the repository
