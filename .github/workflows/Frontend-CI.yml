@@ -4,9 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       branch: 
-  push:
-    branches:
-      - main
+  
   paths: 
       - 'Application-Code/frontend/**'
       - .github/workflows/Frontend-CI.yml
