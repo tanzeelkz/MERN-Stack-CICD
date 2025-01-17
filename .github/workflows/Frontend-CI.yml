@@ -10,7 +10,7 @@ on:
 
 jobs:
   # Step 1: Clone the repository
-  build:
+  clone-repo:
     runs-on: self-hosted
     steps:
       # Checkout the repository code
@@ -20,19 +20,47 @@ jobs:
           fetch-depth: 0
           
       # Trivy Filesystem Scan
+  trivy-file-system-scan:
+    runs-on: self-hosted
+    needs: clone-repo
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
+          
       - name: Trivy FS scan
         run: |
-         trivy fs --format table -o fs.html .
-         
-      # Sonnarqube Code Quality Scan     
+         trivy fs --format table -o fs-frontend.html .
+  
+      # Sonnarqube Code Quality Scan  
+  sonar-quality-scan:
+    runs-on: self-hosted
+    needs: trivy-file-system-scan
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
       - uses: sonarsource/sonarqube-scan-action@master
         with: 
-          projectBaseDir: Application-Code/frontend
+          projectBaseDir: Application-Code/backend
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
         
       # Set up Docker Buildx
+  buld-push:
+     runs-on: self-hosted
+     needs: sonar-quality-scan
+     steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -53,9 +81,39 @@ jobs:
           push: true
           tags: ${{secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
      
-      # Trivy Image Scanner 
+     # Trivy Image Scanner 
+  trivy-image-scan:
+      runs-on: self-hosted
+      needs: buld-push
+      steps:
+       # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0
       - name: Trivy Image Scan
         run: |
-         trivy image --format table -o trivy-image-report.html ${{secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
+         trivy image --format table -o trivy-frontend.html ${{secrets.DOCKER_USERNAME }}/mern-frontend:${{ github.run_id }}
 
-     
+     # Update tag in Helm chart
+  update-newtag-in-helm-chart:
+      runs-on: self-hosted
+      needs: trivy-image-scan
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+         token: ${{ secrets.Mern_Token }}
+
+      - name: Update tag in Helm chart
+        run: |
+         sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/frontend-chart/values.yaml
+
+      - name: Commit and push changes
+        run: |
+         git config --global user.email "tanzeelkx@gmail.com"
+         git config --global user.name "Tanzeelkz"
+         git add helm/frontend-chart/values.yaml
+         git commit -m "Update tag in Helm chart"
+         git push origin main
+        
