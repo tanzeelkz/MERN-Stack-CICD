@@ -22,7 +22,7 @@ jobs:
       # Trivy Filesystem Scan
       - name: Trivy FS scan
         run: |
-         trivy fs --format table -o fs.html .
+         trivy fs --format table -o fs-backend.html .
          
       # Sonnarqube Code Quality Scan     
       - uses: sonarsource/sonarqube-scan-action@master
