@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: tanzeelkz/mern-backend: {{ .Values.image.tag }} # Replace with the actual backend image name
+        image: tanzeelkz/mern-backend:{{ .Values.image.tag }}  # Replace with the actual backend image name
         ports:
         - containerPort: 5050
         env:
