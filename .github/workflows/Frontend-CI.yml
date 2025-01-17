@@ -33,6 +33,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install unzip 
         run: sudo apt install -y unzip
+      - uses: sonarsource/sonarqube-scan-action@master
         env:
          SONAR_TOKEN: ${{ secrets.SONAR_TKN }}
          SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
