@@ -5,7 +5,7 @@ pipeline {
     }
     environment  {
         DOCKER_IMAGE = "tanzeelkz/mern-frontend:${BUILD_NUMBER}"
-        REGISTRY_CREDENTIALS = credentials('docker-creds')   
+        REGISTRY_CREDENTIALS = credentials('Docker-token')   
         SCANNER_HOME=tool 'sonar-scanner'
         //AWS_ACCOUNT_ID = credentials('ACCOUNT_ID')
         //AWS_ECR_REPO_NAME = credentials('ECR_REPO1')
