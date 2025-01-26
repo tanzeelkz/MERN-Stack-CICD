@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: tanzeelkz/mern-frontend:11 # Replace with actual image name or use a build process
+          image: tanzeelkz/mern-frontend:2 # Replace with actual image name or use a build process
           ports:
             - containerPort: 5173
           env:
